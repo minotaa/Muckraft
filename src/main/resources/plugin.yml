@@ -1,0 +1,8 @@
+name: Muck
+description: Muck plugin for Muckin' around.
+version: 1.0.0
+author: Minota
+main: pink.mino.muck.Main
+api-version: 1.17
+depend:
+  - HolographicDisplays
