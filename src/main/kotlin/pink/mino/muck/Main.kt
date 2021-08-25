@@ -4,6 +4,7 @@ import org.bukkit.*
 import org.bukkit.Bukkit.getServer
 import org.bukkit.inventory.*
 import org.bukkit.plugin.java.JavaPlugin
+import pink.mino.muck.commands.StartCommand
 import pink.mino.muck.listeners.*
 import pink.mino.muck.utils.Settings
 
@@ -52,6 +53,8 @@ class Main : JavaPlugin() {
         Bukkit.getServer().pluginManager.registerEvents(CreatureSpawn(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerJoin(), this)
         Bukkit.getServer().pluginManager.registerEvents(WeatherChange(), this)
+
+        this.getCommand("start")?.setExecutor(StartCommand())
         Bukkit.clearRecipes()
 
         addRecipes()
@@ -60,11 +63,14 @@ class Main : JavaPlugin() {
         settings.data!!.set("started", false)
         settings.saveData()
         logger.info("Muck plugin enabled!")
-        val wc = WorldCreator("Muck")
-        wc.environment(World.Environment.NORMAL)
-        wc.type(WorldType.NORMAL)
-        wc.createWorld()
-
+        //val wc = WorldCreator("Muck")
+        //wc.environment(World.Environment.NORMAL)
+        //wc.type(WorldType.NORMAL)
+        //wc.createWorld()
+        //val world = Bukkit.getServer().getWorld("Muck")
+        //if (world != null) {
+        //    world.pvp = false
+        //}
     }
     private fun addRecipes() {
         var item = ItemStack(Material.WOODEN_PICKAXE)

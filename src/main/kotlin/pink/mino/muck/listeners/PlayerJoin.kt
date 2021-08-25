@@ -22,12 +22,13 @@ class PlayerJoin : Listener {
         e.player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_DIGGING, 999999999, 0, false, false))
         started = Settings.instance.data!!.get("started") as Boolean
         if (!started) {
-            val spawn = Location(Bukkit.getServer().getWorld("Muck"), 0.5, 36.5, 0.5)
+            Bukkit.getLogger().info("The game is not started, sending ${e.player.name} to the spawn.")
+            val spawn = Location(Bukkit.getServer().getWorld("Lobby"), 0.5, 36.5, 0.5)
             val effects = e.player.activePotionEffects
             for (effect in effects) {
                 e.player.removePotionEffect(effect.type)
             }
-            var inv = e.player.inventory
+            val inv = e.player.inventory
 
             // clear main inventory
             inv.clear()

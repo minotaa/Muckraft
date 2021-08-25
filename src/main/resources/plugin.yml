@@ -6,3 +6,6 @@ main: pink.mino.muck.Main
 api-version: 1.17
 depend:
   - HolographicDisplays
+commands:
+  start:
+    description: Starts the current Muck game.

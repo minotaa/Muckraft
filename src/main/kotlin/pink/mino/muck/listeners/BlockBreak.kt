@@ -137,10 +137,6 @@ class BlockBreak : Listener {
                     e.isCancelled = true
                 }
             }
-        } else if (e.player.world.name === "Lobby") {
-            if (e.player.name !== "minota") {
-                e.isCancelled = true
-            }
         }
     }
 }
