@@ -12,22 +12,24 @@ import pink.mino.muck.Main
 class BlockPlace : Listener {
     @EventHandler
     fun onBlockPlace(e: BlockPlaceEvent) {
-        val block = e.blockPlaced
-        if (
-            block.type === Material.DIAMOND_ORE ||
-            block.type === Material.IRON_ORE ||
-            block.type === Material.ANCIENT_DEBRIS ||
-            block.type === Material.STONE ||
-            block.type === Material.OAK_LOG ||
-            block.type === Material.STRIPPED_OAK_LOG ||
-            block.type === Material.COAL_ORE ||
-            block.type === Material.GOLD_ORE ||
-            block.type === Material.OAK_LEAVES
-        ) {
-            e.isCancelled = true
-            e.player.sendMessage("${ChatColor.RED}You can't place this block!")
-        } else {
-            block.setMetadata("placed", FixedMetadataValue(JavaPlugin.getPlugin(Main::class.java), "yes"))
+        if (e.player.world.name !== "Lobby") {
+            val block = e.blockPlaced
+            if (
+                block.type === Material.DIAMOND_ORE ||
+                block.type === Material.IRON_ORE ||
+                block.type === Material.ANCIENT_DEBRIS ||
+                block.type === Material.STONE ||
+                block.type === Material.OAK_LOG ||
+                block.type === Material.STRIPPED_OAK_LOG ||
+                block.type === Material.COAL_ORE ||
+                block.type === Material.GOLD_ORE ||
+                block.type === Material.OAK_LEAVES
+            ) {
+                e.isCancelled = true
+                e.player.sendMessage("${ChatColor.RED}You can't place this block!")
+            } else {
+                block.setMetadata("placed", FixedMetadataValue(JavaPlugin.getPlugin(Main::class.java), "yes"))
+            }
         }
     }
 }

@@ -13,6 +13,9 @@ class EntityDeath : Listener {
     @EventHandler
     fun onEntityDeath(e: EntityDeathEvent) {
         val entity = e.entity
+        if (entity.type === EntityType.COW) {
+            e.drops.remove(ItemStack(Material.LEATHER))
+        }
         if (entity.type === EntityType.VILLAGER || entity.type === EntityType.ZOMBIE_VILLAGER || entity.type === EntityType.ZOMBIE || entity.type === EntityType.SKELETON || entity.type === EntityType.STRAY || entity.type === EntityType.HUSK) {
             e.drops.clear()
             if (entity.customName === "${ChatColor.RED}☠") {

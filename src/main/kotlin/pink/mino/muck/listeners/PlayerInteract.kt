@@ -72,7 +72,7 @@ class PlayerInteract : Listener {
                 for (en in block.location.getNearbyEntities(5.0, 5.0, 5.0)) {
                     if (HologramsAPI.isHologramEntity(en)) en.remove()
                 }
-                getServer().broadcastMessage("${ChatColor.WHITE}${e.player.name}${ChatColor.AQUA} started a battle!")
+                getServer().broadcastMessage("${ChatColor.GREEN}${e.player.name} started a battle!")
                 for (i in 0..2) {
                     val x = block.location.x
                     val z = block.location.z
@@ -84,11 +84,6 @@ class PlayerInteract : Listener {
                     livingEntity.isCustomNameVisible = true
                     livingEntity.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
                     livingEntity.addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000000, 0))
-                    if (livingEntity.type === EntityType.SKELETON || livingEntity.type === EntityType.STRAY) {
-                        val bow = ItemStack(Material.BOW)
-                        bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1)
-                        livingEntity.equipment?.setItemInMainHand(bow)
-                    }
                 }
             }
         }

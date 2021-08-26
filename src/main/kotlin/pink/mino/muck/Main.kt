@@ -37,8 +37,6 @@ class Main : JavaPlugin() {
 
     override fun onDisable() {
         logger.info("Muck plugin disabled!")
-        server.getWorld("Muck")?.let { Bukkit.unloadWorld(it, true) }
-        Bukkit.getServer().getWorld("Muck")?.worldFolder?.delete()
     }
     override fun onEnable() {
         Bukkit.getServer().pluginManager.registerEvents(ChunkLoad(), this)
@@ -49,6 +47,8 @@ class Main : JavaPlugin() {
         Bukkit.getServer().pluginManager.registerEvents(BlockDamage(), this)
         Bukkit.getServer().pluginManager.registerEvents(BlockCook(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerDamage(), this)
+        Bukkit.getServer().pluginManager.registerEvents(PlayerDeath(), this)
+        Bukkit.getServer().pluginManager.registerEvents(PlayerRespawn(), this)
         Bukkit.getServer().pluginManager.registerEvents(EntityDeath(), this)
         Bukkit.getServer().pluginManager.registerEvents(CreatureSpawn(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerJoin(), this)
@@ -58,19 +58,23 @@ class Main : JavaPlugin() {
         Bukkit.clearRecipes()
 
         addRecipes()
+        Bukkit.getServer().scheduler.scheduleSyncDelayedTask(this /* ? */, Runnable breakout@{
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                "mvimport Muck normal"
+            )
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                "mvdelete Muck"
+            )
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                "mvconfirm"
+            )
+        }, 60)
 
         settings.setup(this)
         settings.data!!.set("started", false)
+        settings.data!!.set("list", null)
         settings.saveData()
         logger.info("Muck plugin enabled!")
-        //val wc = WorldCreator("Muck")
-        //wc.environment(World.Environment.NORMAL)
-        //wc.type(WorldType.NORMAL)
-        //wc.createWorld()
-        //val world = Bukkit.getServer().getWorld("Muck")
-        //if (world != null) {
-        //    world.pvp = false
-        //}
     }
     private fun addRecipes() {
         var item = ItemStack(Material.WOODEN_PICKAXE)
@@ -457,6 +461,26 @@ class Main : JavaPlugin() {
         val wood = ShapelessRecipe(key, ItemStack(Material.OAK_PLANKS, 4))
         wood.addIngredient(Material.OAK_LOG)
         Bukkit.addRecipe(wood)
+
+        key = NamespacedKey(this, "birch_wood")
+        val birch = ShapelessRecipe(key, ItemStack(Material.BIRCH_PLANKS, 4))
+        birch.addIngredient(Material.BIRCH_LOG)
+        Bukkit.addRecipe(birch)
+
+        key = NamespacedKey(this, "acacia_wood")
+        val acacia = ShapelessRecipe(key, ItemStack(Material.ACACIA_PLANKS, 4))
+        acacia.addIngredient(Material.ACACIA_LOG)
+        Bukkit.addRecipe(acacia)
+
+        key = NamespacedKey(this, "spruce_wood")
+        val spruce = ShapelessRecipe(key, ItemStack(Material.SPRUCE_PLANKS, 4))
+        spruce.addIngredient(Material.SPRUCE_LOG)
+        Bukkit.addRecipe(spruce)
+
+        key = NamespacedKey(this, "dark_oak_wood")
+        val darkOak = ShapelessRecipe(key, ItemStack(Material.DARK_OAK_PLANKS, 4))
+        darkOak.addIngredient(Material.DARK_OAK_LOG)
+        Bukkit.addRecipe(darkOak)
 
         key = NamespacedKey(this, "torch")
         val torch = ShapelessRecipe(key, ItemStack(Material.TORCH, 4))

@@ -128,15 +128,17 @@ class CreatureSpawn : Listener {
                 e.entity.world.spawnEntity(e.entity.location, monsters.random())
             }
         } else {
-            if (Random.nextInt(100) > 90) {
-                entity.customName = "${ChatColor.RED}☠"
-                entity.isCustomNameVisible = true
-                entity.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
-                entity.addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000000, 0))
-                if (entity.type === EntityType.SKELETON || entity.type === EntityType.STRAY) {
-                    val bow = ItemStack(Material.BOW)
-                    bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1)
-                    entity.equipment?.setItemInMainHand(bow)
+            if (entity.type !== EntityType.VILLAGER && entity.type !== EntityType.COW) {
+                if (Random.nextInt(100) > 90) {
+                    entity.customName = "${ChatColor.RED}☠"
+                    entity.isCustomNameVisible = true
+                    entity.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
+                    entity.addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000000, 0))
+                    //if (entity.type === EntityType.SKELETON || entity.type === EntityType.STRAY) {
+                    //    val bow = ItemStack(Material.BOW)
+                    //    bow.addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                    //    entity.equipment?.setItemInMainHand(bow)
+                    //}
                 }
             }
         }

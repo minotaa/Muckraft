@@ -116,12 +116,10 @@ class ChunkLoad : Listener {
         val world = e.world
         val random = Random
         if (e.isNewChunk) {
-            if (random.nextInt(100) > 20) {
-                spawnOre(source, world)
-            }
             if (random.nextInt(100) > 80) {
                 spawnBattle(source, world)
             }
+            spawnOre(source, world)
             spawnChest(source, world)
             if (random.nextInt(100) > 90) {
                 spawnTree(source, world)

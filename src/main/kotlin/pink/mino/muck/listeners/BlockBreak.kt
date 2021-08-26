@@ -14,7 +14,7 @@ import kotlin.random.Random
 class BlockBreak : Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onBlockBreak(e: BlockBreakEvent) {
-        if (e.player.world.name === "muck") {
+        if (e.player.world.name === "Muck") {
             if (
                 e.block.type === Material.DIAMOND_ORE ||
                 e.block.type === Material.IRON_ORE ||
@@ -45,7 +45,9 @@ class BlockBreak : Listener {
                     val world = e.block.world
                     val player = e.player
                     e.isDropItems = false
-                    if (e.block.type === Material.BIRCH_LOG || e.block.type === Material.STRIPPED_BIRCH_LOG) {
+                    if (e.block.type === Material.OAK_LOG || e.block.type === Material.STRIPPED_OAK_LOG) {
+                        world.dropItemNaturally(location, ItemStack(Material.OAK_LOG, Random.nextInt(1, 3)))
+                    } else if (e.block.type === Material.BIRCH_LOG || e.block.type === Material.STRIPPED_BIRCH_LOG) {
                         if (e.player.inventory.itemInMainHand.type !== Material.WOODEN_AXE && e.player.inventory.itemInMainHand.type !== Material.STONE_AXE && e.player.inventory.itemInMainHand.type !== Material.IRON_AXE && e.player.inventory.itemInMainHand.type !== Material.DIAMOND_AXE && e.player.inventory.itemInMainHand.type !== Material.NETHERITE_AXE) {
                             e.isCancelled = true
                             return e.player.sendMessage("${ChatColor.RED}You can't mine this block yet, you need a Wooden Axe.")
