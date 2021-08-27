@@ -3,6 +3,7 @@ package pink.mino.muck.listeners
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI
 import org.bukkit.*
 import org.bukkit.Bukkit.getServer
+import org.bukkit.command.CommandSender
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
@@ -13,6 +14,13 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.jetbrains.annotations.NotNull
+import pink.mino.muck.utils.ApplyPowerup
+import pink.mino.muck.utils.GuiBuilder
+import pink.mino.muck.utils.Settings
+import pink.mino.muck.utils.powerups.CommonPowerups
+import pink.mino.muck.utils.powerups.LegendaryPowerups
+import pink.mino.muck.utils.powerups.RarePowerups
 import kotlin.random.Random
 
 
@@ -42,24 +50,70 @@ class PlayerInteract : Listener {
                     val world = e.player.world
                     world.playEffect(location, Effect.SMOKE, 0)
                     world.playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 3.0F, 0.5F)
+                    var rarity: Any? = null
                     if (block.getMetadata("rarity")[0] !== null) {
                         when {
                             block.getMetadata("rarity")[0].value() === "free" -> {
-                                world.dropItemNaturally(location, ItemStack(Material.STICK))
+                                val odds = Random.nextInt(101)
+                                when {
+                                    odds > 90 -> {
+                                        rarity = "common"
+                                    }
+                                    odds > 99 -> {
+                                        rarity = "rare"
+                                    }
+                                    odds > 100 -> {
+                                        rarity = "legendary"
+                                    }
+                                }
                             }
                             block.getMetadata("rarity")[0].value() === "common" -> {
-                                world.dropItemNaturally(location, ItemStack(Material.DIAMOND))
+                                val odds = Random.nextInt(101)
+                                when {
+                                    odds > 80 -> {
+                                        rarity = "common"
+                                    }
+                                    odds > 18 -> {
+                                        rarity = "rare"
+                                    }
+                                    odds > 2 -> {
+                                        rarity = "legendary"
+                                    }
+                                }
                             }
                             block.getMetadata("rarity")[0].value() === "diamond" -> {
-                                world.dropItemNaturally(location, ItemStack(Material.GOLDEN_AXE))
+                                val odds = Random.nextInt(101)
+                                when {
+                                    odds > 85 -> {
+                                        rarity = "rare"
+                                    }
+                                    odds > 15 -> {
+                                        rarity = "legendary"
+                                    }
+                                }
                             }
                             block.getMetadata("rarity")[0].value() === "gold" -> {
-                                world.dropItemNaturally(location, ItemStack(Material.DIAMOND_AXE))
-                            }
-                            block.getMetadata("rarity")[0].value() === "emerald" -> {
-                                world.dropItemNaturally(location, ItemStack(Material.ELYTRA))
+                                rarity = "legendary"
                             }
                         }
+                    }
+                    var reward: Any? = null
+                    when {
+                        rarity === "legendary" -> {
+                            val choice = Random.nextInt(LegendaryPowerups.values().size)
+                            reward = LegendaryPowerups.values()[choice]
+                        }
+                        rarity === "rare" -> {
+                            val choice = Random.nextInt(RarePowerups.values().size)
+                            reward = RarePowerups.values()[choice]
+                        }
+                        rarity === "common" -> {
+                            val choice = Random.nextInt(CommonPowerups.values().size)
+                            reward = CommonPowerups.values()[choice]
+                        }
+                    }
+                    if (reward != null) {
+                        ApplyPowerup.applyPower(player, reward)
                     }
                     location.block.type = Material.AIR
                     for (en in block.location.getNearbyEntities(5.0, 5.0, 5.0)) {
@@ -85,6 +139,32 @@ class PlayerInteract : Listener {
                     livingEntity.equipment?.helmet = ItemStack(Material.LEATHER_HELMET)
                     livingEntity.addPotionEffect(PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000000, 0))
                 }
+            } else if (block.type === Material.RESPAWN_ANCHOR) {
+                val gui = GuiBuilder().rows(2).name("Revive your Friends")
+                val list = Settings.instance.data!!.get("list") as ArrayList<*>
+                for ((i, p) in list.withIndex()) {
+                    if (p !== player.name) {
+                        val playerItem = ItemStack(Material.SKELETON_SKULL)
+                        val meta = playerItem.itemMeta
+                        meta.setDisplayName("$p")
+                        val world = Bukkit.getWorld("Muck")
+                        var day = 0L
+                        if (world !== null) {
+                            day = world.fullTime / 24000
+                        }
+                        meta.lore = listOf("${ChatColor.GRAY}Click to revive ${ChatColor.YELLOW}${p}${ChatColor.GRAY}.", "${ChatColor.GRAY}Price: ${ChatColor.GOLD}${50 * (day + 1)}")
+                        playerItem.itemMeta = meta
+                        gui.item(i, playerItem).onClick runnable@{
+                            it.isCancelled = true
+                            val item = it.cursor
+                            if (item != null) {
+                                Bukkit.dispatchCommand(player as CommandSender, "revive ${meta.displayName}")
+                            }
+                            it.clickedInventory!!.close()
+                        }
+                    }
+                }
+                player.openInventory(gui.make())
             }
         }
     }

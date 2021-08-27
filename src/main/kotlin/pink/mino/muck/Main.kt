@@ -73,6 +73,7 @@ class Main : JavaPlugin() {
         settings.setup(this)
         settings.data!!.set("started", false)
         settings.data!!.set("list", null)
+        settings.data!!.set("death", null)
         settings.saveData()
         logger.info("Muck plugin enabled!")
     }
@@ -197,36 +198,36 @@ class Main : JavaPlugin() {
         item.itemMeta.isUnbreakable = true
         key = NamespacedKey(this, "stone_sword")
         val stoneSword = ShapelessRecipe(key, item)
-        stoneAxe.addIngredient(Material.COBBLESTONE)
-        stoneAxe.addIngredient(Material.COBBLESTONE)
-        stoneAxe.addIngredient(Material.BIRCH_PLANKS)
+        stoneSword.addIngredient(Material.COBBLESTONE)
+        stoneSword.addIngredient(Material.COBBLESTONE)
+        stoneSword.addIngredient(Material.BIRCH_PLANKS)
         Bukkit.addRecipe(stoneSword)
 
         item = ItemStack(Material.IRON_SWORD)
         item.itemMeta.isUnbreakable = true
         key = NamespacedKey(this, "iron_sword")
         val ironSword = ShapelessRecipe(key, item)
-        ironAxe.addIngredient(Material.IRON_INGOT)
-        ironAxe.addIngredient(Material.IRON_INGOT)
-        ironAxe.addIngredient(Material.ACACIA_PLANKS)
+        ironSword.addIngredient(Material.IRON_INGOT)
+        ironSword.addIngredient(Material.IRON_INGOT)
+        ironSword.addIngredient(Material.ACACIA_PLANKS)
         Bukkit.addRecipe(ironSword)
 
         item = ItemStack(Material.DIAMOND_SWORD)
         item.itemMeta.isUnbreakable = true
         key = NamespacedKey(this, "diamond_sword")
         val diamondSword = ShapelessRecipe(key, item)
-        diamondAxe.addIngredient(Material.DIAMOND)
-        diamondAxe.addIngredient(Material.DIAMOND)
-        diamondAxe.addIngredient(Material.SPRUCE_PLANKS)
+        diamondSword.addIngredient(Material.DIAMOND)
+        diamondSword.addIngredient(Material.DIAMOND)
+        diamondSword.addIngredient(Material.SPRUCE_PLANKS)
         Bukkit.addRecipe(diamondSword)
 
         item = ItemStack(Material.NETHERITE_SWORD)
         item.itemMeta.isUnbreakable = true
         key = NamespacedKey(this, "netherite_sword")
         val netheriteSword = ShapelessRecipe(key, item)
-        netheriteAxe.addIngredient(Material.NETHERITE_INGOT)
-        netheriteAxe.addIngredient(Material.NETHERITE_INGOT)
-        netheriteAxe.addIngredient(Material.DARK_OAK_PLANKS)
+        netheriteSword.addIngredient(Material.NETHERITE_INGOT)
+        netheriteSword.addIngredient(Material.NETHERITE_INGOT)
+        netheriteSword.addIngredient(Material.DARK_OAK_PLANKS)
         Bukkit.addRecipe(netheriteSword)
 
         key = NamespacedKey(this, "furnace")
@@ -484,8 +485,8 @@ class Main : JavaPlugin() {
 
         key = NamespacedKey(this, "torch")
         val torch = ShapelessRecipe(key, ItemStack(Material.TORCH, 4))
-        wood.addIngredient(Material.COAL)
-        wood.addIngredient(Material.STICK)
+        torch.addIngredient(Material.COAL)
+        torch.addIngredient(Material.STICK)
         Bukkit.addRecipe(torch)
 
         key = NamespacedKey(this, "netherite_ingot")

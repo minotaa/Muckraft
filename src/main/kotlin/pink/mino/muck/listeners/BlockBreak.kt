@@ -79,7 +79,7 @@ class BlockBreak : Listener {
                     when {
                         e.block.type === Material.DIAMOND_ORE -> {
                             if (e.player.inventory.itemInMainHand.type === Material.IRON_PICKAXE || e.player.inventory.itemInMainHand.type === Material.DIAMOND_PICKAXE || e.player.inventory.itemInMainHand.type === Material.NETHERITE_PICKAXE) {
-                                world.dropItemNaturally(location, ItemStack(Material.DIAMOND_ORE, Random.nextInt(1, 3)))
+                                world.dropItemNaturally(location, ItemStack(Material.DIAMOND_ORE, Random.nextInt(3, 5)))
                             } else {
                                 e.isCancelled = true
                                 return player.sendMessage("${ChatColor.RED}You can't mine this block yet, you need an Iron Pickaxe")
@@ -89,7 +89,7 @@ class BlockBreak : Listener {
                             if (e.player.inventory.itemInMainHand.type === Material.DIAMOND_PICKAXE || e.player.inventory.itemInMainHand.type === Material.NETHERITE_PICKAXE) {
                                 world.dropItemNaturally(
                                     location,
-                                    ItemStack(Material.ANCIENT_DEBRIS, Random.nextInt(1, 3))
+                                    ItemStack(Material.ANCIENT_DEBRIS, Random.nextInt(3, 5))
                                 )
                             } else {
                                 e.isCancelled = true
@@ -117,7 +117,7 @@ class BlockBreak : Listener {
                         }
                         e.block.type === Material.IRON_ORE -> {
                             if (e.player.inventory.itemInMainHand.type === Material.STONE_PICKAXE || e.player.inventory.itemInMainHand.type === Material.IRON_PICKAXE || e.player.inventory.itemInMainHand.type === Material.DIAMOND_PICKAXE || e.player.inventory.itemInMainHand.type === Material.NETHERITE_PICKAXE) {
-                                world.dropItemNaturally(location, ItemStack(Material.IRON_ORE, Random.nextInt(1, 3)))
+                                world.dropItemNaturally(location, ItemStack(Material.IRON_ORE, Random.nextInt(3, 5)))
                             } else {
                                 e.isCancelled = true
                                 return player.sendMessage("${ChatColor.RED}You can't mine this block yet, you need a Stone Pickaxe")

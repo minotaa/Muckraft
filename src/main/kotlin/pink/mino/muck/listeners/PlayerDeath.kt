@@ -21,6 +21,9 @@ class PlayerDeath : Listener {
                     if (list.size == 0) {
                         Settings.instance.data!!.set("started", false)
                     }
+                    Settings.instance.data!!.set("death.${player.name}.x", player.location.x.toString())
+                    Settings.instance.data!!.set("death.${player.name}.y", player.location.y.toString())
+                    Settings.instance.data!!.set("death.${player.name}.z", player.location.z.toString())
                     Settings.instance.saveData()
                 }
             }

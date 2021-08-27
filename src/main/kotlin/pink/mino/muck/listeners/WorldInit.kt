@@ -11,6 +11,6 @@ class WorldInit : Listener {
         val world = e.world
         world.worldBorder.setCenter(0.5, 0.5)
         world.worldBorder.size = 2000.0
-        world.difficulty = Difficulty.HARD
+        world.difficulty = Difficulty.NORMAL
     }
 }

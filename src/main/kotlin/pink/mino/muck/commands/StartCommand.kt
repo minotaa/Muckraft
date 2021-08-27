@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.jetbrains.annotations.NotNull
 import pink.mino.muck.Main
@@ -37,6 +39,9 @@ class StartCommand : CommandExecutor {
             }
             for (p in Bukkit.getServer().onlinePlayers) {
                 p.sendMessage("${ChatColor.GREEN}Generating a world... please wait 10 seconds.")
+                p.walkSpeed = 0.35F
+                p.addPotionEffect(PotionEffect(PotionEffectType.SLOW_DIGGING, 999999999, 0, false, false))
+                p.addPotionEffect(PotionEffect(PotionEffectType.JUMP, 999999999, 0, false, false))
             }
             Bukkit.getServer().scheduler.scheduleSyncDelayedTask(JavaPlugin.getPlugin(Main::class.java), {
                 val list = ArrayList<String>()
@@ -85,7 +90,7 @@ class StartCommand : CommandExecutor {
         val spawn = Location(Bukkit.getServer().getWorld("Lobby"), 0.5, 36.5, 0.5)
         for (p in Bukkit.getServer().onlinePlayers) {
             p.sendMessage("${ChatColor.DARK_RED}Game over! Sending all players to spawn!")
-            p.sendMessage("${ChatColor.DARK_RED}The server will restart in 5 seconds...")
+            p.sendMessage("${ChatColor.DARK_RED}The server will restart in 15 seconds...")
             val effects = p.activePotionEffects
             for (effect in effects) {
                 p.removePotionEffect(effect.type)
@@ -114,6 +119,6 @@ class StartCommand : CommandExecutor {
         }
         Bukkit.getServer().scheduler.scheduleSyncDelayedTask(JavaPlugin.getPlugin(Main::class.java), {
             Bukkit.getServer().shutdown()
-        }, 100)
+        }, 300)
     }
 }

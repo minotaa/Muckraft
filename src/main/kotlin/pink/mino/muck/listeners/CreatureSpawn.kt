@@ -124,9 +124,6 @@ class CreatureSpawn : Listener {
         }
         if (entity.type !== EntityType.VILLAGER && entity.type !== EntityType.STRAY && entity.type !== EntityType.HUSK && entity.type !== EntityType.ZOMBIE_VILLAGER && entity.type !== EntityType.ZOMBIE && entity.type !== EntityType.SKELETON && entity.type !== EntityType.COW) {
             e.isCancelled = true
-            if (entity.type === EntityType.CREEPER || entity.type === EntityType.SPIDER) {
-                e.entity.world.spawnEntity(e.entity.location, monsters.random())
-            }
         } else {
             if (entity.type !== EntityType.VILLAGER && entity.type !== EntityType.COW) {
                 if (Random.nextInt(100) > 90) {
