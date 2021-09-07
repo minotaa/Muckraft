@@ -1,6 +1,7 @@
 package pink.mino.muck.listeners
 
 import org.bukkit.*
+import org.bukkit.attribute.Attribute
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryType
@@ -45,8 +46,10 @@ class PlayerJoin : Listener {
             e.player.level = 0
             e.player.gameMode = GameMode.ADVENTURE
             e.player.isFlying = false
+            e.player.walkSpeed = 0.2F
             e.player.health = 10.0
             e.player.foodLevel = 10
+            e.player.getAttribute(Attribute.GENERIC_ATTACK_SPEED)!!.baseValue = 4.0
             // Add a reset powerups thingy.
             e.player.teleport(spawn)
         }

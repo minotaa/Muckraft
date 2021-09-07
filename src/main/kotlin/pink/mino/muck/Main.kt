@@ -4,6 +4,7 @@ import org.bukkit.*
 import org.bukkit.Bukkit.getServer
 import org.bukkit.inventory.*
 import org.bukkit.plugin.java.JavaPlugin
+import pink.mino.muck.commands.ReviveCommand
 import pink.mino.muck.commands.StartCommand
 import pink.mino.muck.listeners.*
 import pink.mino.muck.utils.Settings
@@ -45,16 +46,18 @@ class Main : JavaPlugin() {
         Bukkit.getServer().pluginManager.registerEvents(BlockBreak(), this)
         Bukkit.getServer().pluginManager.registerEvents(BlockPlace(), this)
         Bukkit.getServer().pluginManager.registerEvents(BlockDamage(), this)
-        Bukkit.getServer().pluginManager.registerEvents(BlockCook(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerDamage(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerDeath(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerRespawn(), this)
         Bukkit.getServer().pluginManager.registerEvents(EntityDeath(), this)
+        Bukkit.getServer().pluginManager.registerEvents(EntityDamage(), this)
         Bukkit.getServer().pluginManager.registerEvents(CreatureSpawn(), this)
         Bukkit.getServer().pluginManager.registerEvents(PlayerJoin(), this)
+        Bukkit.getServer().pluginManager.registerEvents(SaturationLoss(), this)
         Bukkit.getServer().pluginManager.registerEvents(WeatherChange(), this)
 
         this.getCommand("start")?.setExecutor(StartCommand())
+        this.getCommand("revive")?.setExecutor(ReviveCommand())
         Bukkit.clearRecipes()
 
         addRecipes()

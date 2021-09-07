@@ -54,29 +54,18 @@ class PlayerInteract : Listener {
                     if (block.getMetadata("rarity")[0] !== null) {
                         when {
                             block.getMetadata("rarity")[0].value() === "free" -> {
-                                val odds = Random.nextInt(101)
-                                when {
-                                    odds > 90 -> {
-                                        rarity = "common"
-                                    }
-                                    odds > 99 -> {
-                                        rarity = "rare"
-                                    }
-                                    odds > 100 -> {
-                                        rarity = "legendary"
-                                    }
-                                }
+                                rarity = "common"
                             }
                             block.getMetadata("rarity")[0].value() === "common" -> {
                                 val odds = Random.nextInt(101)
                                 when {
-                                    odds > 80 -> {
+                                    odds < 80 -> {
                                         rarity = "common"
                                     }
-                                    odds > 18 -> {
+                                    odds < 18 -> {
                                         rarity = "rare"
                                     }
-                                    odds > 2 -> {
+                                    odds < 2 -> {
                                         rarity = "legendary"
                                     }
                                 }
@@ -84,10 +73,10 @@ class PlayerInteract : Listener {
                             block.getMetadata("rarity")[0].value() === "diamond" -> {
                                 val odds = Random.nextInt(101)
                                 when {
-                                    odds > 85 -> {
+                                    odds < 85 -> {
                                         rarity = "rare"
                                     }
-                                    odds > 15 -> {
+                                    odds < 15 -> {
                                         rarity = "legendary"
                                     }
                                 }
@@ -112,6 +101,7 @@ class PlayerInteract : Listener {
                             reward = CommonPowerups.values()[choice]
                         }
                     }
+                    Bukkit.getLogger().info("${reward.toString()}, ${rarity.toString()}")
                     if (reward != null) {
                         ApplyPowerup.applyPower(player, reward)
                     }
